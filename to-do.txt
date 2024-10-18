@@ -1,0 +1,15 @@
+1. Project analysis -- done
+2. Boilerplate Install -- done 
+3. UI Design
+    3.1 Header Design -- done 
+    3.2 Banner Design -- done
+    3.3 Table Design -- done
+    3.4 Footer Design -- done
+4. Modal Design
+5. Modal Function 
+6. Task Adding 
+7. Task Showing 
+8. Task Deleting 
+9. Task Editing 
+10. Clearing Tasks 
+11. Searching Task 
