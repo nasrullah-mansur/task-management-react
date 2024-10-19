@@ -7,10 +7,10 @@ import TaskTable from "../sections/task-table/TaskTable";
 function Layout() {
   return (
     <>
-        <Header />
-        <Banner />
-        <TaskTable />
-        <Footer />
+      <Header />
+      <Banner />
+      <TaskTable />
+      <Footer />
     </>
   )
 }
