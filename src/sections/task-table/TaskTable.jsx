@@ -50,7 +50,6 @@ function TaskTable() {
                     </Table>
                 </div>
             </div>
-
             <ModalPopup onOpen={openModal} onClose={() => setOpenModal(false)} />
         </Container>
     )
