@@ -19,6 +19,20 @@ function NoData() {
 
 function TaskTable() {
     let [openModal, setOpenModal] = useState(false);
+    let [tasks, setTasks] = useState([]);
+
+    let createHandler = (item) => {
+        let updateTasks = [
+            ...tasks,
+            {
+                ...item,
+                id: tasks.length + 1
+            }
+        ];
+
+        setTasks(updateTasks.reverse());
+
+    }
 
     return (
         <Container className="mt-3">
@@ -40,17 +54,15 @@ function TaskTable() {
                             <Table.HeadCell>Action</Table.HeadCell>
                         </Table.Head>
                         <Table.Body className="divide-y">
-                            <TaskItem />
-                            <TaskItem />
-                            <TaskItem />
-                            <TaskItem />
-                            <NoData />
+
+                            {tasks.length == 0 ? <NoData /> : tasks.map((item, index) => <TaskItem data={item} index={index} key={item.id} />)}
+
 
                         </Table.Body>
                     </Table>
                 </div>
             </div>
-            <ModalPopup onOpen={openModal} onClose={() => setOpenModal(false)} />
+            <ModalPopup onCreate={createHandler} onOpen={openModal} onClose={() => setOpenModal(false)} />
         </Container>
     )
 }

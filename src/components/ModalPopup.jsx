@@ -6,14 +6,16 @@ import { popupFormValidation } from "../form-validation/modalForm";
 
 
 
-export function ModalPopup({ onOpen, onClose }) {
+export function ModalPopup({ onOpen, onClose, onCreate }) {
 
-    const { register, handleSubmit, formState: { errors } } = useForm({
+    const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(popupFormValidation)
     });
 
     const onSubmit = (data) => {
-        console.log(data);
+        onCreate(data);
+        reset();
+        onClose();
     }
 
 
