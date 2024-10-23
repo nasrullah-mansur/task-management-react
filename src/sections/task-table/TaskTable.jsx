@@ -24,21 +24,34 @@ function TaskTable() {
     let createHandler = (item) => {
         let updateTasks = [
             ...tasks,
-            {
-                ...item,
-                id: tasks.length + 1
-            }
+            item,
         ];
 
         setTasks(updateTasks.reverse());
 
     }
 
+    let editHandler = (task) => {
+        setTasks(tasks.map(item => {
+            if (task.id === item.id) {
+                return task;
+            } else {
+                return item;
+            }
+        }));
+    }
+
+    let deleteHandler = (id) => {
+        setTasks(tasks.filter(item => {
+            return item.id != id;
+        }));
+    }
+
     return (
         <Container className="mt-3">
             <div className="flex justify-end w-full">
                 <Button onClick={() => setOpenModal(true)} className='mr-2' color="success">Add Task</Button>
-                <Button color="failure">Clear Tasks</Button>
+                <Button color="failure" onClick={() => setTasks([])}>Clear Tasks</Button>
             </div>
             <div className="p-3 rounded-sm border dark:border-[#666] my-3">
                 <TaskTableHeader />
@@ -55,7 +68,7 @@ function TaskTable() {
                         </Table.Head>
                         <Table.Body className="divide-y">
 
-                            {tasks.length == 0 ? <NoData /> : tasks.map((item, index) => <TaskItem data={item} index={index} key={item.id} />)}
+                            {tasks.length == 0 ? <NoData /> : tasks.map((item, index) => <TaskItem onDelete={deleteHandler} onEdit={editHandler} data={item} index={index} key={item.id} />)}
 
 
                         </Table.Body>

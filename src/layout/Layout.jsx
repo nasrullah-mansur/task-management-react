@@ -10,7 +10,7 @@ function Layout() {
   return (
     <>
       <Header />
-      <Banner />
+      {/* <Banner /> */}
       <TaskTable />
       <Footer />
     </>

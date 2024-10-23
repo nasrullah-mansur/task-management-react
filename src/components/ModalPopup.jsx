@@ -6,31 +6,52 @@ import { popupFormValidation } from "../form-validation/modalForm";
 
 
 
-export function ModalPopup({ onOpen, onClose, onCreate }) {
+export function ModalPopup({ onOpen, onClose, onCreate, taskToEdit, onEdit }) {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({
         resolver: yupResolver(popupFormValidation)
     });
 
     const onSubmit = (data) => {
-        onCreate(data);
+
+        if (taskToEdit) {
+            // Edit task;
+            onEdit(data);
+        } else {
+            // Create task;
+            onCreate(data);
+        }
+
         reset();
         onClose();
     }
+
+    let formData = taskToEdit || {
+        id: crypto.randomUUID(),
+        title: null,
+        description: null,
+        assignTo: null,
+        priority: null,
+    }
+
+
 
 
     return (
         <>
             <Modal show={onOpen} onClose={() => onClose()}>
-                <Modal.Header>Add Task</Modal.Header>
+                <Modal.Header>{taskToEdit ? 'Edit Task' : 'Add Task'} </Modal.Header>
                 <Modal.Body>
                     <div className="space-y-6">
-                        <form action="" className="flex flex-wrap" onSubmit={handleSubmit(onSubmit)}>
+                        <form className="flex flex-wrap" onSubmit={handleSubmit(onSubmit)}>
                             <div className="w-full">
                                 <div className="mb-2 block">
                                     <Label htmlFor="title" value="Title" />
                                 </div>
-                                <TextInput {...register('title')} id="title" type="text" />
+
+                                <input defaultValue={formData.id} {...register('id')} type="hidden" />
+
+                                <TextInput defaultValue={formData.title} {...register('title')} id="title" type="text" />
                                 {errors.title && <span className="text-red-500">{errors.title.message}</span>}
 
                             </div>
@@ -38,7 +59,7 @@ export function ModalPopup({ onOpen, onClose, onCreate }) {
                                 <div className="mb-2 block">
                                     <Label htmlFor="description" value="Description" />
                                 </div>
-                                <Textarea {...register('description')} id="description" rows={4} />
+                                <Textarea defaultValue={formData.description} {...register('description')} id="description" rows={4} />
                                 {errors.description && <span className="text-red-500">{errors.description.message}</span>}
                             </div>
 
@@ -47,7 +68,7 @@ export function ModalPopup({ onOpen, onClose, onCreate }) {
                                     <div className="mb-2 block">
                                         <Label htmlFor="assign" value="Assign to" />
                                     </div>
-                                    <Select id="assign" {...register('assignTo')}>
+                                    <Select defaultValue={formData.assignTo} id="assign" {...register('assignTo')}>
                                         <option value="" disabled>Select Assign To</option>
                                         <option value="Person One">Person One</option>
                                         <option value="Person Two">Person Two</option>
@@ -62,7 +83,7 @@ export function ModalPopup({ onOpen, onClose, onCreate }) {
                                 <div className="mb-2 block">
                                     <Label htmlFor="assign" value="Priority" />
                                 </div>
-                                <Select id="assign" {...register('priority')}>
+                                <Select id="assign" defaultValue={formData.priority} {...register('priority')}>
                                     <option value="" disabled>Select Priority</option>
                                     <option value="High">High</option>
                                     <option value="Medium">Medium</option>
@@ -70,7 +91,7 @@ export function ModalPopup({ onOpen, onClose, onCreate }) {
                                 </Select>
                                 {errors.priority && <span className="text-red-500">{errors.priority.message}</span>}
                             </div>
-                            <Button type="submit" className="mt-4">Add Task</Button>
+                            <Button type="submit" className="mt-4">{taskToEdit ? 'Update Task' : 'Add Task'}</Button>
                         </form>
                     </div>
                 </Modal.Body>
